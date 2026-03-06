@@ -1,0 +1,106 @@
+{
+  "agent_type_name": "Ollama Prompt Lifecycle Bot",
+  "description": "An educational chat agent that breaks down the exact technical lifecycle of a prompt using Ollama, from the initial user input to the final extracted response.",
+  "steps_definitions": [
+    {
+      "nickname": "pure_prompt",
+      "name": "Pure User Prompt",
+      "explanation": "steps/pure_prompt.mdx",
+      "icon": "message-square",
+      "color": "border-blue-400",
+      "possible_next_steps": [
+        "message_encapsulation"
+      ]
+    },
+    {
+      "nickname": "message_encapsulation",
+      "name": "Message Encapsulation",
+      "explanation": "steps/message_encapsulation.mdx",
+      "icon": "braces",
+      "color": "border-amber-500",
+      "possible_next_steps": [
+        "raw_llm_prompt"
+      ]
+    },
+    {
+      "nickname": "raw_llm_prompt",
+      "name": "Raw LLM Prompt",
+      "explanation": "steps/raw_llm_prompt.mdx",
+      "icon": "terminal",
+      "color": "border-purple-500",
+      "possible_next_steps": [
+        "raw_llm_output"
+      ]
+    },
+    {
+      "nickname": "raw_llm_output",
+      "name": "Raw LLM Output",
+      "explanation": "steps/raw_llm_output.mdx",
+      "icon": "file-json-2",
+      "color": "border-pink-500",
+      "possible_next_steps": [
+        "final_extraction"
+      ]
+    },
+    {
+      "nickname": "final_extraction",
+      "name": "Answer Extraction",
+      "explanation": "steps/final_extraction.mdx",
+      "icon": "bot",
+      "color": "border-green-500",
+      "possible_next_steps": []
+    }
+  ],
+  "examples": [
+    {
+      "name": "Ask about the sky",
+      "sequence": [
+        {
+          "step_nickname": "pure_prompt",
+          "content": "Why is the sky blue?"
+        },
+        {
+          "step_nickname": "message_encapsulation",
+          "content": "{\n  \"model\": \"llama3\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are a helpful and concise AI assistant.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"Why is the sky blue?\"\n    }\n  ],\n  \"stream\": false\n}"
+        },
+        {
+          "step_nickname": "raw_llm_prompt",
+          "content": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a helpful and concise AI assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nWhy is the sky blue?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+        },
+        {
+          "step_nickname": "raw_llm_output",
+          "content": "{\n  \"model\": \"llama3\",\n  \"created_at\": \"2023-10-24T15:30:00.000000Z\",\n  \"message\": {\n    \"role\": \"assistant\",\n    \"content\": \"The sky is blue due to a phenomenon called Rayleigh scattering. As sunlight enters Earth's atmosphere, gases and particles scatter the shorter blue wavelengths of light more than the longer red wavelengths, making the sky appear blue to our eyes.\"\n  },\n  \"done\": true,\n  \"total_duration\": 1523456700,\n  \"load_duration\": 1234000,\n  \"prompt_eval_count\": 24,\n  \"eval_count\": 45\n}"
+        },
+        {
+          "step_nickname": "final_extraction",
+          "content": "The sky is blue due to a phenomenon called Rayleigh scattering. As sunlight enters Earth's atmosphere, gases and particles scatter the shorter blue wavelengths of light more than the longer red wavelengths, making the sky appear blue to our eyes."
+        }
+      ]
+    },
+    {
+      "name": "Tell a simple joke",
+      "sequence": [
+        {
+          "step_nickname": "pure_prompt",
+          "content": "Tell me a joke about computers."
+        },
+        {
+          "step_nickname": "message_encapsulation",
+          "content": "{\n  \"model\": \"llama3\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are a helpful and concise AI assistant.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"Tell me a joke about computers.\"\n    }\n  ],\n  \"stream\": false\n}"
+        },
+        {
+          "step_nickname": "raw_llm_prompt",
+          "content": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a helpful and concise AI assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nTell me a joke about computers.<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+        },
+        {
+          "step_nickname": "raw_llm_output",
+          "content": "{\n  \"model\": \"llama3\",\n  \"created_at\": \"2023-10-24T15:31:00.000000Z\",\n  \"message\": {\n    \"role\": \"assistant\",\n    \"content\": \"Why did the computer show up at work late?\\n\\nBecause it had a hard drive!\"\n  },\n  \"done\": true,\n  \"total_duration\": 987654300,\n  \"load_duration\": 1100000,\n  \"prompt_eval_count\": 25,\n  \"eval_count\": 19\n}"
+        },
+        {
+          "step_nickname": "final_extraction",
+          "content": "Why did the computer show up at work late? \n\nBecause it had a hard drive!"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+Before sending the text to Ollama, the application must wrap the pure prompt into a structured JSON payload that the Ollama Chat API understands. 
+
+This encapsulation usually involves:
+1. Specifying the target `model` (e.g., "llama3").
+2. Creating a `messages` array.
+3. Defining the "roles" for each message. A `system` role establishes the bot's overarching behavior, while the `user` role contains the pure prompt we collected in the previous step.
+
+This structured format ensures the LLM knows *who* is speaking and *what rules* to follow.

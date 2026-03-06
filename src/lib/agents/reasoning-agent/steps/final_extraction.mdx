@@ -1,0 +1,3 @@
+Once the LLM outputs the magic string `Final Answer:`, the reasoning loop terminates. 
+
+The application parses the final LLM output, strips away the `Thought:` process (unless the user interface is designed to show the "chain of thought"), and extracts only the text following `Final Answer:`. This clean string is presented to the user.

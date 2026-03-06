@@ -1,0 +1,72 @@
+{
+  "agent_type_name": "Agent with Tools",
+  "description": "This agent can use external tools (e.g., web search, calculator) to find information or perform actions. It is more powerful as it is not limited to its internal knowledge.",
+  "steps_definitions": [
+    {
+      "nickname": "user_prompt",
+      "name": "User Prompt",
+      "icon": "User",
+      "color": "border-blue-500",
+      "possible_next_steps": ["system_prompt_injection"]
+    },
+    {
+      "nickname": "system_prompt_injection",
+      "name": "System Prompt Injection",
+      "icon": "BrainCircuit",
+      "color": "border-purple-500",
+      "possible_next_steps": ["tool_choice"]
+    },
+    {
+      "nickname": "tool_choice",
+      "name": "Tool Choice",
+      "icon": "Wrench",
+      "color": "border-orange-500",
+      "possible_next_steps": ["tool_output"]
+    },
+    {
+      "nickname": "tool_output",
+      "name": "Tool Output",
+      "icon": "Binary",
+      "color": "border-green-500",
+      "possible_next_steps": ["final_answer_formulation"]
+    },
+    {
+      "nickname": "final_answer_formulation",
+      "name": "Final Answer Formulation",
+      "icon": "FileText",
+      "color": "border-yellow-500",
+      "possible_next_steps": ["final_answer"]
+    },
+    {
+      "nickname": "final_answer",
+      "name": "Final Answer",
+      "icon": "Bot",
+      "color": "border-teal-500",
+      "possible_next_steps": []
+    }
+  ],
+  "examples": [
+    {
+      "name": "Weather in Paris",
+      "sequence": [
+        { "step_nickname": "user_prompt", "content": "<user>What is the weather in Paris?</user>" },
+        { "step_nickname": "system_prompt_injection", "content": "<system>You have access to a 'getWeather(city: string)' tool.</system>\n<user>What is the weather in Paris?</user>" },
+        { "step_nickname": "tool_choice", "content": "<tool_call>{\"function\": \"getWeather\", \"args\": {\"city\": \"Paris\"}}</tool_call>" },
+        { "step_nickname": "tool_output", "content": "<tool_output>{\"temperature\": \"15°C\", \"condition\": \"Sunny\"}</tool_output>" },
+        { "step_nickname": "final_answer_formulation", "content": "<thought>The tool provided the information. I will formulate a simple sentence for the user.</thought>" },
+        { "step_nickname": "final_answer", "content": "The weather in Paris is 15°C and sunny." }
+      ]
+    },
+    {
+      "name": "Capital of France",
+      "sequence": [
+        { "step_nickname": "user_prompt", "content": "<user>What is the capital of France?</user>" },
+        { "step_nickname": "system_prompt_injection", "content": "<system>You have access to a 'search(query: string)' tool.</system>\n<user>What is the capital of France?</user>" },
+        { "step_nickname": "tool_choice", "content": "<tool_call>{\"function\": \"search\", \"args\": {\"query\": \"Capital of France\"}}</tool_call>" },
+        { "step_nickname": "tool_output", "content": "<tool_output>\"Paris\"</tool_output>" },
+        { "step_nickname": "final_answer_formulation", "content": "<thought>The tool returned 'Paris'. That is the answer.</thought>" },
+        { "step_nickname": "final_answer", "content": "The capital of France is Paris." }
+      ]
+    }
+  ]
+}

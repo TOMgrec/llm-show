@@ -1,0 +1,7 @@
+Once the LLM generates its response, Ollama does not just return the raw text to the application. It packages the generated text back into a structured JSON HTTP response.
+
+This payload contains metadata about the generation process, including:
+* Information about the `model` used.
+* A timestamp (`created_at`).
+* The encapsulated `message` object containing the `assistant`'s response.
+* Performance metrics like `total_duration`, `prompt_eval_count` (how many tokens were in the prompt), and `eval_count` (how many tokens the model generated).

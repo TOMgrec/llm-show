@@ -1,0 +1,9 @@
+To force the LLM to think in loops, the system must inject a strict operational framework—typically the **ReAct (Reasoning and Acting)** framework.
+
+
+
+The system prompt is heavily modified here to include:
+1. **Tool Definitions**: A JSON-like or string list of tools the agent can use (e.g., web search, calculators, database queries).
+2. **The Formatting Loop**: Strict instructions to format outputs as `Thought:`, `Action:`, `Action Input:`, and wait for an `Observation:` before concluding with a `Final Answer:`.
+
+This turns the LLM from a simple text generator into a state machine that pauses when it needs external data.

@@ -1,0 +1,104 @@
+{
+  "agent_type_name": "ReAct Reasoning Loop Agent",
+  "description": "An advanced agent that uses the ReAct (Reasoning and Acting) framework to perform multi-step cycles. It thinks about the problem, uses tools, observes the results, and loops until it reaches a final answer.",
+  "steps_definitions": [
+    {
+      "nickname": "pure_user_prompt",
+      "name": "Initial User Request",
+      "explanation": "steps/pure_user_prompt.mdx",
+      "icon": "message-square-dashed",
+      "color": "border-blue-400",
+      "possible_next_steps": [
+        "react_system_prompt"
+      ]
+    },
+    {
+      "nickname": "react_system_prompt",
+      "name": "ReAct Framework Injection",
+      "explanation": "steps/react_system_prompt.mdx",
+      "icon": "layers",
+      "color": "border-amber-500",
+      "possible_next_steps": [
+        "llm_cycle_prompt"
+      ]
+    },
+    {
+      "nickname": "llm_cycle_prompt",
+      "name": "Raw LLM Prompt (Cycle Input)",
+      "explanation": "steps/llm_cycle_prompt.mdx",
+      "icon": "terminal-square",
+      "color": "border-purple-500",
+      "possible_next_steps": [
+        "llm_cycle_output"
+      ]
+    },
+    {
+      "nickname": "llm_cycle_output",
+      "name": "LLM Reasoning & Action Output",
+      "explanation": "steps/llm_cycle_output.mdx",
+      "icon": "brain-circuit",
+      "color": "border-pink-500",
+      "possible_next_steps": [
+        "tool_execution",
+        "final_extraction"
+      ]
+    },
+    {
+      "nickname": "tool_execution",
+      "name": "Tool Execution & Observation",
+      "explanation": "steps/tool_execution.mdx",
+      "icon": "wrench",
+      "color": "border-orange-500",
+      "possible_next_steps": [
+        "llm_cycle_prompt"
+      ]
+    },
+    {
+      "nickname": "final_extraction",
+      "name": "Final Answer Extraction",
+      "explanation": "steps/final_extraction.mdx",
+      "icon": "bot",
+      "color": "border-green-500",
+      "possible_next_steps": []
+    }
+  ],
+  "examples": [
+    {
+      "name": "Weather in Capital City",
+      "sequence": [
+        {
+          "step_nickname": "pure_user_prompt",
+          "content": "What is the capital of France, and what is its current temperature?"
+        },
+        {
+          "step_nickname": "react_system_prompt",
+          "content": "{\n  \"model\": \"llama3\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are a reasoning agent. Answer the user's question. You have access to the following tools:\\n- get_weather({\\\"location\\\": \\\"string\\\"}): gets the weather.\\nUse the following format:\\nThought: think about what to do\\nAction: tool_name\\nAction Input: tool_arguments_in_json\\nObservation: tool_result\\n... (this Thought/Action/Observation can repeat N times)\\nThought: I now know the final answer\\nFinal Answer: the final answer to the original input question.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"What is the capital of France, and what is its current temperature?\"\n    }\n  ],\n  \"stream\": false\n}"
+        },
+        {
+          "step_nickname": "llm_cycle_prompt",
+          "content": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\\n\\nYou are a reasoning agent. Answer the user's question. You have access to the following tools:\\n- get_weather({\\\"location\\\": \\\"string\\\"}): gets the weather.\\nUse the following format:\\nThought: think about what to do\\nAction: tool_name\\nAction Input: tool_arguments_in_json\\nObservation: tool_result\\n... (this Thought/Action/Observation can repeat N times)\\nThought: I now know the final answer\\nFinal Answer: the final answer to the original input question.<|eot_id|><|start_header_id|>user<|end_header_id|>\\n\\nWhat is the capital of France, and what is its current temperature?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\\n\\n"
+        },
+        {
+          "step_nickname": "llm_cycle_output",
+          "content": "Thought: I need to find the capital of France and its weather. I know the capital is Paris. I will use the get_weather tool for Paris.\\nAction: get_weather\\nAction Input: {\\\"location\\\": \\\"Paris, France\\\"}"
+        },
+        {
+          "step_nickname": "tool_execution",
+          "content": "Observation: {\\\"temperature\\\": \\\"15°C\\\", \\\"condition\\\": \\\"Partly cloudy\\\"}"
+        },
+        {
+          "step_nickname": "llm_cycle_prompt",
+          "content": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\\n\\nYou are a reasoning agent... [System Prompt Truncated for brevity]...<|eot_id|><|start_header_id|>user<|end_header_id|>\\n\\nWhat is the capital of France, and what is its current temperature?<|eot_id|><|start_header_id|>assistant<|end_header_id|>\\n\\nThought: I need to find the capital of France and its weather. I know the capital is Paris. I will use the get_weather tool for Paris.\\nAction: get_weather\\nAction Input: {\\\"location\\\": \\\"Paris, France\\\"}<|eot_id|><|start_header_id|>tool<|end_header_id|>\\n\\nObservation: {\\\"temperature\\\": \\\"15°C\\\", \\\"condition\\\": \\\"Partly cloudy\\\"}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\\n\\n"
+        },
+        {
+          "step_nickname": "llm_cycle_output",
+          "content": "Thought: I now know the final answer.\\nFinal Answer: The capital of France is Paris, and the current temperature there is 15°C with partly cloudy conditions."
+        },
+        {
+          "step_nickname": "final_extraction",
+          "content": "The capital of France is Paris, and the current temperature there is 15°C with partly cloudy conditions."
+        }
+      ]
+    }
+  ]
+}

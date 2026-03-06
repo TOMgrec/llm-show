@@ -1,0 +1,4 @@
+This is the exact string fed into the LLM during any given cycle. 
+
+In Llama 3 format, it includes all the control tokens like `<|start_header_id|>` and `<|eot_id|>`. 
+Crucially, in a multi-step loop, **this prompt grows larger with every cycle**. It contains the system instructions, the original user prompt, the LLM's previous thoughts and tool calls, and the tool outputs (observations) injected back in by the system using a `tool` role tag. The LLM reads the entire history to determine its next logical step.

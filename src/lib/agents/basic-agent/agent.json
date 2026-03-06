@@ -1,0 +1,45 @@
+{
+  "agent_type_name": "Basic Agent (ReAct)",
+  "description": "This agent follows a simple 'Reason -> Act' loop. It analyzes a request, decides on an action, and then performs it to formulate a response.",
+  "steps_definitions": [
+    {
+      "nickname": "user_prompt",
+      "name": "User Prompt",
+      "icon": "User",
+      "color": "border-blue-500",
+      "possible_next_steps": ["reasoning"]
+    },
+    {
+      "nickname": "reasoning",
+      "name": "Reasoning",
+      "icon": "BrainCircuit",
+      "color": "border-purple-500",
+      "possible_next_steps": ["action"]
+    },
+    {
+      "nickname": "action",
+      "name": "Action",
+      "icon": "Wrench",
+      "color": "border-orange-500",
+      "possible_next_steps": ["final_answer"]
+    },
+    {
+      "nickname": "final_answer",
+      "name": "Final Answer",
+      "icon": "Bot",
+      "color": "border-teal-500",
+      "possible_next_steps": []
+    }
+  ],
+  "examples": [
+    {
+      "name": "Simple Addition",
+      "sequence": [
+        { "step_nickname": "user_prompt", "content": "<user>Calculate 1+1</user>" },
+        { "step_nickname": "reasoning", "content": "<thought>The user wants a simple addition. I can do this directly.</thought>" },
+        { "step_nickname": "action", "content": "<act>Calculate 1+1</act>" },
+        { "step_nickname": "final_answer", "content": "1+1 = 2" }
+      ]
+    }
+  ]
+}

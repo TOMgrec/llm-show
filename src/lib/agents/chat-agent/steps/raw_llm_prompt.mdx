@@ -1,0 +1,5 @@
+Large Language Models do not inherently understand JSON objects. They are text-in, text-out engines. Therefore, Ollama must take the JSON array from the previous step and convert it into a single, continuous string using a specific **prompt template**.
+
+
+
+Different models use different control tokens to distinguish between the system, the user, and the assistant. For example, Llama 3 uses special tags like `<|start_header_id|>` and `<|eot_id|>` (End of Turn). This exact string is the *actual* input that the neural network "reads" to generate its continuation.

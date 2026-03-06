@@ -1,0 +1,5 @@
+The LLM generates text based on the cycle prompt. 
+
+Because of the system instructions, the LLM will output a "Thought" (its internal monologue) and then either:
+* **An Action**: It decides it needs more information, outputs an `Action` and `Action Input`, and then stops generating text (the application halts generation when it detects this pattern).
+* **A Final Answer**: It decides it has enough information to resolve the user's prompt and outputs the `Final Answer`.
