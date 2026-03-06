@@ -138,7 +138,3 @@ Provides user controls (Prev, Next, Reset) to navigate through agent steps. Disp
 ## 🤝 Contributing
 
 Contributions are welcome! Please adhere to the guidelines in `AGENTS.md` for code style and conventions. For issues or suggestions, feel free to open an issue or a pull request on GitHub.
-
----
-
-*Last updated: [Insert Date Here]*
